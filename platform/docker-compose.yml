@@ -4,7 +4,8 @@ version: "3"
 
 services:
   web:
-    build: . # Builds the Docker image using the Dockerfile in the current directory
+    build: 
+      context: ./frontend # Builds the Docker image using the Dockerfile in the current directory
     ports:
       - "8000:8000" # Maps port 8000 on the host machine to port 8000 on the container
     depends_on:
