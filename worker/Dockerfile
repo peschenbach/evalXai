@@ -1,4 +1,4 @@
-# Use python v3.12 as parent image
+# Use official python image as parent image
 FROM python:3.10
 
 # Set the working directory to /app
