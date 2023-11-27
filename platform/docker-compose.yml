@@ -4,15 +4,15 @@ version: "3"
 
 services:
   web:
-    build: .
+    build: . # Builds the Docker image using the Dockerfile in the current directory
     ports:
-      - "8000:8000"
+      - "8000:8000" # Maps port 8000 on the host machine to port 8000 on the container
     depends_on:
-      - db
+      - db # Ensures that the database container ("db") is started before the web container 
 
   db: 
-    image: "postgres:12"
-    environment:
+    image: "postgres:12" # Use the official Postgres12 image
+    environment: # Sets environment variables for the PostgresSQL container
       POSTGRES_DB: evalxai_db
       POSTGRES_USER: evalxai_user
       POSTGRES_PASSWORD: password

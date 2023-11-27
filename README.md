@@ -13,3 +13,10 @@ example:
 
 example:
 `docker run -it --rm python-test-app`
+
+To see all Docker images on your machine: `docker images`
+More detailed infos about a specific image: `docker image inspect <image_name>`
+Remove a specific image: `docker rmi <image_name>`
+
+
+Run the entire application: `docker-compose up`

@@ -2,6 +2,7 @@
 # Use official Node.js image as base image
 FROM node:14 AS frontend
 
+# Set the working directory within the container
 WORKDIR /app/frontend
 COPY frontend/package*json ./
 RUN npm install
