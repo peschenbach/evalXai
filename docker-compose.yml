@@ -2,12 +2,12 @@ version: '3'
 services:
   frontend:
     build:
-      context: ./platform
+      context: ./platform/frontend
     # Additional configuration for the frontend service
 
   backend:
     build:
-      context: ./platform
+      context: ./platform/backend
     # Additional configuration for the backend service
     depends_on: # It won't start until the "worker" service is up and runing
       - worker
