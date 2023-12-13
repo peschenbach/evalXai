@@ -42,11 +42,15 @@ USER appuser
 # Copy the source code into the container.
 COPY . .
 
-# Expose the port that the application listens on.
-EXPOSE 8000
-
+# Application setup stage
+FROM base as setup
 RUN python manage.py makemigrations
 RUN python manage.py migrate
+
+# Expose the port that the application listens on.
+# Final stage
+FROM base as final
+EXPOSE 8000
 
 # Run the application.
 ENTRYPOINT ["python", "manage.py"]
