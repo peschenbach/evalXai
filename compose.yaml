@@ -23,9 +23,9 @@ services:
     ports:
       - 3000:3000
 
-  worker:
-    build:
-      context: ./worker
+  #worker:
+   # build:
+    #  context: ./worker
   # Additional configuration for the worker service
 
   # The commented out section below is an example of how to define a PostgreSQL
