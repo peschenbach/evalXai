@@ -45,6 +45,9 @@ COPY . .
 # Expose the port that the application listens on.
 EXPOSE 8000
 
+RUN python manage.py makemigrations
+RUN python manage.py migrate
+
 # Run the application.
 ENTRYPOINT ["python", "manage.py"]
 CMD ["runserver", "0.0.0.0:8000"]
