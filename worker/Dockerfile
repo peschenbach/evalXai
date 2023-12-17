@@ -20,4 +20,11 @@ COPY . /worker/
 ENV NAME World
 
 # Run app.py when the container launches
-CMD ["python", "evaluate.py"]
+# When instantiating worker containers from backend, use this
+# CMD ["python", "evaluate.py"]
+
+# temporary solution, given that we only need one working
+# up and running along the platform.
+# command to execute evaluation script from within the container
+# docker exec -it evalxai-worker-1 python evaluate.py
+CMD ["sleep", "infinity"]
