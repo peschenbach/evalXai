@@ -17,6 +17,7 @@ def prediction_list(request):
         serializer = PredictionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            # TODO: spawn container and run evaluate.py
             return Response(data=serializer.data, status = status.HTTP_201_CREATED)
 
 
