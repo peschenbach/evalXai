@@ -11,7 +11,7 @@ const uploadFile = async (
   formData.append("file", file);
 
   try {
-    const response = await axios.post("/api/preds", formData, {
+    const response = await axios.post("/api/prediction/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
