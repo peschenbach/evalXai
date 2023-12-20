@@ -1,24 +1,30 @@
 "use client";
-import React, { useState, ChangeEvent, DragEvent } from "react";
+import React, { useState, ChangeEvent, DragEvent, useEffect } from "react";
 import Button from "@mui/material/Button";
 import axios from "axios";
 
 const uploadFile = async (
   file: File,
-  setUploadStatus: React.Dispatch<React.SetStateAction<string>>
+  setUploadStatus: React.Dispatch<React.SetStateAction<string>>,
+  setPrediction: React.Dispatch<React.SetStateAction<Number[]>>
 ) => {
-  const formData = new FormData();
-  formData.append("file", file);
-
+  const content = await file.text();
+  const jsonData = JSON.parse(content);
+  console.log("Uploaded jsonData: ", jsonData);
   try {
-    const response = await axios.post("/api/prediction/", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axios.post(
+      "http://localhost:8000/api/prediction/",
+      jsonData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     console.log("File successfully uploaded", response.data);
     setUploadStatus("✅ File successfully uploaded!");
+    setPrediction(response.data.prediction);
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       console.error("Upload failed", error.response.data);
@@ -33,12 +39,14 @@ const uploadFile = async (
 export const FileUpload: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadStatus, setUploadStatus] = useState<string>("");
+  const [prediction, setPrediction] = useState<Number[]>([]);
+  const [formattedPrediction, setFormattedPrediction] = useState<string>("");
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
     if (file) {
       setSelectedFile(file);
-      uploadFile(file, setUploadStatus);
+      uploadFile(file, setUploadStatus, setPrediction);
     }
   };
 
@@ -51,13 +59,21 @@ export const FileUpload: React.FC = () => {
     const file = event.dataTransfer.files[0];
     if (file) {
       setSelectedFile(file);
-      uploadFile(file, setUploadStatus);
+      uploadFile(file, setUploadStatus, setPrediction);
     }
   };
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
   };
+
+  useEffect(() => {
+    if (prediction.length > 0) {
+      setFormattedPrediction("[" + prediction.join(", ") + "]");
+    } else {
+      setFormattedPrediction("");
+    }
+  }, [prediction]);
 
   return (
     <>
@@ -90,6 +106,9 @@ export const FileUpload: React.FC = () => {
           <p className="text-center ">File selected: {selectedFile.name}</p>
         )}
         {uploadStatus && <p className="text-center mt-4">{uploadStatus}</p>}
+        {formattedPrediction && (
+          <p className="text-center mt-4">Prediction: {formattedPrediction}</p>
+        )}
       </div>
     </>
   );
