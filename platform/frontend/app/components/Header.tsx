@@ -1,5 +1,7 @@
+"use client";
+
 import React from "react";
-import Link from "next/link";
+import { Button } from "@mui/material";
 
 const Header: React.FC = () => {
   return (
@@ -9,6 +11,10 @@ const Header: React.FC = () => {
           Explainable AI Benchmarking Plattform
         </h1>
         <nav className="flex space-x-4">
+          <Button variant="outlined"> Upload </Button>
+          <Button variant="outlined">Display</Button>
+          <div></div>
+
           <p>Login</p>
 
           <p>Settings</p>

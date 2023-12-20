@@ -14,4 +14,6 @@ Report Diagram of the api communications
 
 ---
 
-red
+for now :
+
+- fix CORS error
