@@ -1,3 +1,5 @@
+import json
+
 import torch as t
 import torchmetrics as tm
 import requests
@@ -31,7 +33,7 @@ else:
     print(f"Failed to fetch data. Status code: {response.status_code}")
 
 # Assuming processed_data is the result of your calculations
-post_data = {"score": score}
+post_data = {"score": 42}
 post_url = "http://backend:8000/api/score/"
 response = requests.post(post_url, json=post_data)
 
