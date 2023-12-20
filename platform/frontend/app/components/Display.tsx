@@ -2,11 +2,11 @@ import React from "react";
 import { Button } from "@mui/material";
 import axios from "axios";
 
-function getResults() {
-  let result = "";
-  console.log("Test");
-  return result;
-}
+const getResults = async () => {
+  const response = axios.get("http://localhost:8000/api/score/");
+  console.log("Response: ", response);
+  return "Response: " + response;
+};
 
 export const Display = () => {
   return (
@@ -18,7 +18,8 @@ export const Display = () => {
         <div className="text-center">
           <Button
             variant="contained"
-            className="bg-gray-800"
+            className="bg-gray-
+            800"
             onClick={getResults}
           >
             Get Results
