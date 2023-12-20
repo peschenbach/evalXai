@@ -1,4 +1,12 @@
 import React from "react";
+import { Button } from "@mui/material";
+import axios from "axios";
+
+function getResults() {
+  let result = "";
+  console.log("Test");
+  return result;
+}
 
 export const Display = () => {
   return (
@@ -7,6 +15,15 @@ export const Display = () => {
         <h2 className="text-2xl font-semibold mb-4 text-center">
           Display your results
         </h2>
+        <div className="text-center">
+          <Button
+            variant="contained"
+            className="bg-gray-800"
+            onClick={getResults}
+          >
+            Get Results
+          </Button>
+        </div>
       </div>
     </>
   );
