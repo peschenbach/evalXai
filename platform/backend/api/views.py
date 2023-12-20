@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import *
 from .serializers import *
+from .worker_utils import trigger_evaluation_script_inside_worker
 
 
 @api_view(['GET', 'POST'])
@@ -20,6 +21,7 @@ def prediction_list(request):
             # TODO: spawn container and run evaluate.py
             # before spawning, get the network name as a parameter,
             # and connect the new container to it.
+            trigger_evaluation_script_inside_worker()
             return Response(data=serializer.data, status = status.HTTP_201_CREATED)
 
 

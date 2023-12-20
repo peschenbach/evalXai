@@ -13,6 +13,9 @@ services:
       context: ./platform/backend
     ports:
       - 8000:8000
+    user: root
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - worker
       - db
