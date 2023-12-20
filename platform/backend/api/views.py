@@ -18,6 +18,8 @@ def prediction_list(request):
         if serializer.is_valid():
             serializer.save()
             # TODO: spawn container and run evaluate.py
+            # before spawning, get the network name as a parameter,
+            # and connect the new container to it.
             return Response(data=serializer.data, status = status.HTTP_201_CREATED)
 
 
