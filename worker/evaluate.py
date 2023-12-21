@@ -1,17 +1,32 @@
+import json
+
 import torch as t
 import torchmetrics as tm
+import requests
 
-# GET predictions
-# TODO use GET-API from Backend
-preds = t.tensor([0, 1, 0, 1, 0, 0, 1, 1, 1, 1])
+def evaluateData(preds):
+    # Ground truth to compare with
+    target = t.tensor([0, 0, 0, 0, 0, 1, 1, 1, 1, 1])
+    preds_tensor = t.tensor(preds)
 
-# Ground truth to compare with
-target = t.tensor([0, 0, 0, 0, 0, 1, 1, 1, 1, 1])
+    # Compute accuracy for binary classification problem
+    compute_accuracy = tm.Accuracy(task="binary")
+    accuracy = compute_accuracy(preds_tensor, target)
 
-# Compute accuracy for binary classification problem
-compute_accuracy = tm.Accuracy(task="binary")
-accuracy = compute_accuracy(preds, target)
+    return accuracy
 
-print(f"preds: {preds}")
-print(f"target: {target}")
-print(f"accuracy: {accuracy}")
+
+predictions_ID = 13
+api_url = f"http://backend:8000/api/prediction/{predictions_ID}"
+response = requests.get(api_url)
+
+if response.status_code == 200:
+    data = response.json()
+    score = evaluateData(data["prediction"])
+else:
+    print(f"Failed to fetch data. Status code: {response.status_code}")
+
+# Assuming processed_data is the result of your calculations
+post_data = {"score": float(score)}
+post_url = "http://backend:8000/api/score/"
+response = requests.post(post_url, json=post_data)
