@@ -25,14 +25,14 @@ export const Display = () => {
         <div className="text-center">
           <Button
             variant="contained"
-            className="bg-gray-
-            800"
+            className="text-center"
             onClick={getResults}
+            style={{ backgroundColor: "#1f2937", color: "white" }}
           >
             Get Results
           </Button>
-          {response && <p className="mt-4">{"Data: " + response}</p>}
         </div>
+        {response && <p className="mt-4">{"Data: [ " + response + " ]"}</p>}
       </div>
     </>
   );
