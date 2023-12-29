@@ -3,3 +3,5 @@ asgiref==3.7.2
 sqlparse==0.4.4
 psycopg2-binary==2.9.9
 djangorestframework==3.14.0
+django-cors-headers==3.10.1
+docker==7.0.0
