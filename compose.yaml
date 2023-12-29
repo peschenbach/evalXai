@@ -13,9 +13,12 @@ services:
       context: ./platform/backend
     ports:
       - 8000:8000
+    user: root
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
-      db:
-        condition: service_healthy
+      - worker
+      - db
 
   frontend:
     build:
@@ -23,9 +26,9 @@ services:
     ports:
       - 3000:3000
 
-  #worker:
-  # build:
-  #  context: ./worker
+  worker:
+    build:
+      context: ./worker
   # Additional configuration for the worker service
 
   # The commented out section below is an example of how to define a PostgreSQL

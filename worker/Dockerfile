@@ -12,6 +12,7 @@ RUN pip install scikit-learn==1.3.2
 RUN pip install pandas==1.5.3
 RUN pip install matplotlib==3.4.3
 RUN pip install numpy==1.26.0
+RUN pip install requests==2.26.0
 
 # Copy the current directory contents in the container at /worker
 COPY . /worker/

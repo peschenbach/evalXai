@@ -11,16 +11,15 @@ const uploadFile = async (
   const content = await file.text();
   const jsonData = JSON.parse(content);
   console.log("Uploaded jsonData: ", jsonData);
+
+  const userId = 1;
+  const apiUrl = `http://localhost:8000/api/prediction/${userId}/`;
   try {
-    const response = await axios.post(
-      "http://localhost:8000/api/prediction/",
-      jsonData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await axios.post(apiUrl, jsonData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     console.log("File successfully uploaded", response.data);
     setUploadStatus("✅ File successfully uploaded!");
