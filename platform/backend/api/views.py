@@ -26,7 +26,7 @@ def prediction_list(request):
 def prediction_detail(request, user_id):
 
     try:
-        prediction = Prediction.objects.get(pk=user_id)
+        prediction = Prediction.objects.get(user_id=user_id)
     except Prediction.DoesNotExist:
         prediction = None
         return Response(status=status.HTTP_404)
@@ -70,12 +70,12 @@ def score_list(request):
 def score_detail(request, user_id):
 
     try:
-        score = Score.objects.get(pk=user_id)
+        score = Score.objects.get(user_id=user_id)
     except Score.DoesNotExist:
         return Response(status=status.HTTP_404)
 
     if request.method == "GET":
-        score = get_object_or_404(Score, pk=user_id)
+        score = get_object_or_404(Score, user_id=user_id)
         serializer = ScoreSerializer(score)
         return Response(serializer.data)
 
@@ -90,7 +90,7 @@ def score_detail(request, user_id):
     #         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == "POST":
-        score = get_object_or_404(Score, pk=user_id)
+        score = get_object_or_404(Score, user_id=user_id)
         serializer = ScoreSerializer(data=request.data, instance=score)
         if serializer.is_valid():
             serializer.save()
