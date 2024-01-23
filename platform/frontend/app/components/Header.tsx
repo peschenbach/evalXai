@@ -1,19 +1,47 @@
-import React from "react";
-import Link from "next/link";
+"use client";
+import { useState } from "react";
+import TemporaryDrawer from "./TemporaryDrawer";
 
 const Header: React.FC = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
   return (
     <header className="bg-gray-800 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
+        <svg
+          onClick={toggleSidebar}
+          className="h-6 w-6 text-white cursor-pointer"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
         <h1 className="text-xl font-semibold">
           Explainable AI Benchmarking Plattform
         </h1>
+        <input
+          type="search"
+          placeholder="Search..."
+          className=" px-4 py-2  rounded bg-white text-gray-800"
+        />
         <nav className="flex space-x-4">
           <p>Login</p>
-
           <p>Settings</p>
         </nav>
       </div>
+      <TemporaryDrawer
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
     </header>
   );
 };
