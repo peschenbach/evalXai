@@ -37,6 +37,15 @@ def trigger_evaluation_script_inside_worker(file_contents: str):
     except Exception as e:
         return f"no file saved. error: {e}"
 
+    # python_code = """
+    # import requests
+    # response = requests.get('http://backend:8000/api/prediction/')
+    # print(response.text)
+    # """
+    # command_test = ["python", "-c", python_code]
+    # container.exec_run(command_test)
+
+    # decompress file (go back to python)
     command = f"tar -xf {file_path_in_container} -C {destination_path}"
     container.exec_run(command)
 
