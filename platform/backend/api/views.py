@@ -9,11 +9,11 @@ from .worker_utils import trigger_evaluation_script_inside_worker
 
 @api_view(['GET', 'POST'])
 @parser_classes([MultiPartParser])
-def prediction_list(request):
+def xai_list(request):
 
     if request.method == "GET":
-        predictions = Prediction.objects.all()
-        serializer = PredictionSerializer(predictions, many=True)
+        xai_list = XAI.objects.all()
+        serializer = XAISerializer(xai_list, many=True)
         return Response(serializer.data)
 
     if request.method == "POST":
@@ -38,22 +38,29 @@ def prediction_list(request):
 
 
 @api_view(['GET', 'POST'])
-def prediction_detail(request, id):
+@parser_classes([MultiPartParser])
+def xai_detail(request, challenge_id):
 
     try:
-        prediction = Prediction.objects.get(pk=id)
-    except Prediction.DoesNotExist:
+        xai = XAI.objects.get(challenge_id=challenge_id)
+    except XAI.DoesNotExist:
         return Response(status=status.HTTP_404)
 
     if request.method == "GET":
-        serializer = PredictionSerializer(prediction)
+        serializer = XAISerializer(xai)
         return Response(serializer.data)
 
     elif request.method == "POST":
-        serializer = PredictionSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(data=serializer.data, status = status.HTTP_201_CREATED)
+        input_file = request.FILES.get('file')
+
+        if input_file is None:
+            return Response({'error': f'error getting the input file'}, status=status.HTTP_400_BAD_REQUEST)
+
+        file_contents = input_file.read().decode('utf-8')
+        message = trigger_evaluation_script_inside_worker(file_contents)
+
+        return Response({'message': message}, status=status.HTTP_200_OK)
+
         
 
 @api_view(['GET', 'POST'])
@@ -87,3 +94,24 @@ def score_detail(request, id):
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data, status = status.HTTP_201_CREATED)
+        
+@api_view(['GET'])
+def dataset_detail(request, challenge_id):
+    try:
+        dataset = Dataset.objects.get(challenge_id=challenge_id)
+    except Dataset.DoesNotExist:
+        return Response(status=status.HTTP_404)
+
+    serializer = DatasetSerializer(dataset)
+    return Response(serializer.data)
+
+        
+@api_view(['GET'])
+def ai_detail(request, challenge_id):
+    try:
+        ai = Dataset.objects.get(challenge_id=challenge_id)
+    except AI.DoesNotExist:
+        return Response(status=status.HTTP_404)
+
+    serializer = ScoreSerializer(ai)
+    return Response(serializer.data)

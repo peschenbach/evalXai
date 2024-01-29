@@ -1,12 +1,22 @@
 from rest_framework import serializers
-from .models import Prediction, Score
+from .models import *
 
-class PredictionSerializer(serializers.ModelSerializer):
+class XAISerializer(serializers.ModelSerializer):
     class Meta:
-        model = Prediction
-        fields = ['prediction']
+        model = XAI
+        fields = ['xai']
 
 class ScoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Score
         fields = ['score']
+
+class DatasetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dataset
+        fields = ['dataset']
+
+class AISerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AI
+        fields = ['ai']
