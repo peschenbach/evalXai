@@ -46,3 +46,5 @@ def continuous_emd(gt_mask, attribution, n_dim=64):
         attribution).reshape(n_dim)).astype(np.float64), cost_matrix, numItermax=200000, log=True)
 
     return 1 - (log['cost']/np.sqrt(n_dim + n_dim))
+
+print(continuous_emd)

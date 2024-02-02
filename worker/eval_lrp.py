@@ -6,7 +6,7 @@ from emd import *
 
 # load the generated tetris data
 data_file = "linear_1d1p_0.18_uncorrelated"
-data_path = "./data/" + data_file + ".pkl"
+data_path = "/data/" + data_file + ".pkl"
 with open(data_path, 'rb') as file:
     data = pkl.load(file)
 
@@ -59,7 +59,10 @@ x_train = data[data_file].x_train.to(torch.float32)
 #     x_train_reshaped[:batch_size][:batch_size], data[data_file].y_train[:batch_size], model)
 
 lrp_explanations = get_lrp_attributions(
-    x_train[:batch_size], data[data_file].y_train[:batch_size], model)
+    x_train[:batch_size].to(t.float).reshape(100,1,8,8), data[data_file].y_train[:batch_size], model)
+
+c = continuous_emd(data[data_file].masks_test[0], lrp_explanations[0].detach().numpy())
+print(c)
 
 # lrp_explanations = get_lrp_attributions(
 #     data[data_file].x_train[:batch_size], data[data_file].y_train[:batch_size], model)
