@@ -12,8 +12,8 @@ from .worker_utils import trigger_evaluation_script_inside_worker
 def xai_list(request):
 
     if request.method == "GET":
-        xai_list = XAI.objects.all()
-        serializer = XAISerializer(xai_list, many=True)
+        xai_list = Xaimethod.objects.all()
+        serializer = XaimethodSerializer(xai_list, many=True)
         return Response(serializer.data)
 
     if request.method == "POST":
@@ -42,12 +42,12 @@ def xai_list(request):
 def xai_detail(request, challenge_id):
 
     try:
-        xai = XAI.objects.get(challenge_id=challenge_id)
-    except XAI.DoesNotExist:
+        xai = Xaimethod.objects.get(challenge_id=challenge_id)
+    except Xaimethod.DoesNotExist:
         return Response(status=status.HTTP_404)
 
     if request.method == "GET":
-        serializer = XAISerializer(xai)
+        serializer = XaimethodSerializer(xai)
         return Response(serializer.data)
 
     elif request.method == "POST":
@@ -61,7 +61,6 @@ def xai_detail(request, challenge_id):
 
         return Response({'message': message}, status=status.HTTP_200_OK)
 
-        
 
 @api_view(['GET', 'POST'])
 def score_list(request):
@@ -75,7 +74,8 @@ def score_list(request):
         serializer = ScoreSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(data=serializer.data, status = status.HTTP_201_CREATED)
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
 
 @api_view(['GET', 'POST'])
 def score_detail(request, id):
@@ -93,8 +93,9 @@ def score_detail(request, id):
         serializer = ScoreSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(data=serializer.data, status = status.HTTP_201_CREATED)
-        
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
+
 @api_view(['GET'])
 def dataset_detail(request, challenge_id):
     try:
@@ -105,13 +106,13 @@ def dataset_detail(request, challenge_id):
     serializer = DatasetSerializer(dataset)
     return Response(serializer.data)
 
-        
+
 @api_view(['GET'])
 def ai_detail(request, challenge_id):
     try:
-        ai = Dataset.objects.get(challenge_id=challenge_id)
-    except AI.DoesNotExist:
+        model = Mlmodel.objects.get(challenge_id=challenge_id)
+    except Mlmodel.DoesNotExist:
         return Response(status=status.HTTP_404)
 
-    serializer = ScoreSerializer(ai)
+    serializer = MlmodelSerializer(model)
     return Response(serializer.data)

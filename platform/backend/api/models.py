@@ -2,9 +2,9 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 
 
-class XAI(models.Model):
+class Xaimethod(models.Model):
     challenge_id = models.IntegerField(default=1)
-    xai = models.JSONField()  # not final type
+    xai_method = models.JSONField()  # not final type
 
     def __str__(self):
         return f'{self.pk} - {self.xai}'
@@ -33,9 +33,9 @@ class Dataset(models.Model):
 # AI Model
 
 
-class AIModel(models.Model):
+class Mlmodel(models.Model):
     challenge_id = models.IntegerField(default=1)
-    ai_model = models.JSONField()  # not final type
+    model = models.JSONField()  # not final type
 
     def __str__(self):
         return f"{self.pk} - {self.ai}"
