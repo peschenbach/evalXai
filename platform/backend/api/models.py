@@ -25,7 +25,6 @@ class Score(models.Model):
 class Dataset(models.Model):
     challenge_id = models.IntegerField(default=1)  # do we need an id?
     dataset = models.JSONField()  # not final type
-    data = models.BinaryField()
 
     def __str__(self):
         return f"{self.pk} - {self.dataset} - {self.data}"

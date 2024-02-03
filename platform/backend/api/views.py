@@ -5,6 +5,7 @@ from rest_framework import status
 from .models import *
 from .serializers import *
 from .worker_utils import trigger_evaluation_script_inside_worker
+from django.http import HttpResponse
 
 
 @api_view(['GET', 'POST'])
@@ -98,21 +99,52 @@ def score_detail(request, id):
 
 @api_view(['GET'])
 def dataset_detail(request, challenge_id):
-    try:
-        dataset = Dataset.objects.get(challenge_id=challenge_id)
-    except Dataset.DoesNotExist:
-        return Response(status=status.HTTP_404)
+    # try:
+    #     dataset = Dataset.objects.get(challenge_id=challenge_id)
+    # except Dataset.DoesNotExist:
+    #     return Response(status=status.HTTP_404_NOT_FOUND)
 
-    serializer = DatasetSerializer(dataset)
-    return Response(serializer.data)
+    # serializer = DatasetSerializer(dataset)
+    # return Response(serializer.data)
+    file_path = "./dataset/train_data.pt"
+
+    try:
+        with open(file_path, 'rb') as file:
+            data = file.read()
+    except Exception as e:
+        return Response({'error': f'Error reading file: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    # Set the content type to application/octet-stream to indicate a binary file
+    response = HttpResponse(data, content_type='application/octet-stream')
+
+    # Set the file name in the Content-Disposition header
+    response['Content-Disposition'] = f'attachment; filename="train_data.pt"'
+
+    return response
 
 
 @api_view(['GET'])
 def ai_detail(request, challenge_id):
-    try:
-        model = Mlmodel.objects.get(challenge_id=challenge_id)
-    except Mlmodel.DoesNotExist:
-        return Response(status=status.HTTP_404)
+    # try:
+    #     model = Mlmodel.objects.get(challenge_id=challenge_id)
+    # except Mlmodel.DoesNotExist:
+    #     return Response(status=status.HTTP_404)
 
-    serializer = MlmodelSerializer(model)
-    return Response(serializer.data)
+    # serializer = MlmodelSerializer(model)
+    # return Response(serializer.data)
+
+    file_path = "./ml_model/cnn.pt"
+
+    try:
+        with open(file_path, 'rb') as file:
+            data = file.read()
+    except Exception as e:
+        return Response({'error': f'Error reading file: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    # Set the content type to application/octet-stream to indicate a binary file
+    response = HttpResponse(data, content_type='application/octet-stream')
+
+    # Set the file name in the Content-Disposition header
+    response['Content-Disposition'] = f'attachment; filename="cnn.pt"'
+
+    return response
