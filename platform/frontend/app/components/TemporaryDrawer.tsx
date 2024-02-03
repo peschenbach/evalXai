@@ -11,6 +11,7 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import DatasetIcon from "@mui/icons-material/Dataset";
 import CodeIcon from "@mui/icons-material/Code";
 import CommentIcon from "@mui/icons-material/Comment";
+import Link from "next/link";
 
 type TemporaryDrawerProps = {
   isOpen: boolean;
@@ -18,11 +19,11 @@ type TemporaryDrawerProps = {
 };
 
 const drawerItems = [
-  { text: "Home", icon: HomeIcon },
-  { text: "Competitions", icon: EmojiEventsIcon },
-  { text: "Datasets", icon: DatasetIcon },
-  { text: "Code", icon: CodeIcon },
-  { text: "Discussions", icon: CommentIcon },
+  { text: "Home", icon: HomeIcon, href: "/" },
+  { text: "Competitions", icon: EmojiEventsIcon, href: "/competitions" },
+  { text: "Datasets", icon: DatasetIcon, href: "/datasets" },
+  { text: "Code", icon: CodeIcon, href: "/code" },
+  { text: "Discussions", icon: CommentIcon, href: "/discussions" },
 ];
 
 const TemporaryDrawer: React.FC<TemporaryDrawerProps> = ({
@@ -37,15 +38,17 @@ const TemporaryDrawer: React.FC<TemporaryDrawerProps> = ({
       onKeyDown={onClose}
     >
       <List>
-        {drawerItems.map(({ text, icon: IconComponent }, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <IconComponent />
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+        {drawerItems.map(({ text, icon: IconComponent, href }, index) => (
+          <Link key={text} href={href} passHref>
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <IconComponent />
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         ))}
       </List>
     </Box>
