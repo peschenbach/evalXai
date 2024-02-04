@@ -1,27 +1,37 @@
 # evalXai
-Web app to evaluate explainable ai methods
+This web application provides users with ML models and datasets, and evaluates their XAI methods.  
 
-# Build the Docker image
-To create the image run: 
-`docker build -t <image-name> <directory with Dockerfile>`
+# Requirements:
+The only requirement needed for this project is docker, and enough local storage (~10 Gb).
 
-example: 
-`docker build -t python-test-app .`
+# How to run the platform:
+### building images
+inside the folder containing the repository, please run the following command:
 
-# Run a Docker container from the image
-`docker run -it --rm <image-name>`
+`docker compose up`
 
-example:
-`docker run -it --rm python-test-app`
+The first time you run it, it might take a few minutes to finish installing all dependencies and building the images.
 
-To see all Docker images on your machine: 
-`docker images`
+### running Django migrations
+When connecting to the database for the first time (e.g. after the docker volumes are created for the 
+first time or deleted), you will need to create and run the migration script.
+For this step, you will need to know the name of your backend container name, in order to execute commands inside it. 
+After running `docker ps`, copy the name of the container with image `{root_folder}-backend`.
+If your root folder is called "evalXai", and you used docker compose to instantiate all containers, you can use the 
+same container names we used in the default commands below.
 
-More detailed infos about a specific image: 
-`docker image inspect <image_name>`
+`docker exec -it evalxai-backend-1 python manage.py makemigrations`
 
-Remove a specific image: 
-`docker rmi <image_name>`
+`docker exec -it evalxai-backend-1 python manage.py migrate`
 
-Run the entire application: 
-`docker-compose up`
+Alternatively, if you have the docker desktop app, you can follow these steps:
+* On the left sidebar, go to the containers section.
+* click on the three dots on the right side.
+* click on "open in terminal"
+* run the following commands:
+
+    `python manage.py makemigrations`
+
+    `python manage.py migrate`
+
+### You're done! You can now access the platform at: localhost:3000 
