@@ -3,6 +3,10 @@
 from scipy.spatial.distance import cdist
 from scipy.ndimage import gaussian_filter
 import numpy as np
+import torch as t
+from torch import load
+from upload import XAI_Method
+import pickle as pkl
 
 from ot.lp import emd
 
@@ -46,5 +50,22 @@ def continuous_emd(gt_mask, attribution, n_dim=64):
         attribution).reshape(n_dim)).astype(np.float64), cost_matrix, numItermax=200000, log=True)
 
     return 1 - (log['cost']/np.sqrt(n_dim + n_dim))
+
+
+data_file = "linear_1d1p_0.18_uncorrelated"
+data_path = "./data/" + data_file + ".pkl"
+with open(data_path, 'rb') as file:
+    data = pkl.load(file)
+
+model_file = "linear_1d1p_0.18_uncorrelated_LLR_1_0"
+model_path = "./ai_model/" + model_file + ".pt"
+model = load(model_path)
+
+batch_size = 100
+
+lrp_explanations = XAI_Method(data[data_file].data[data_file].x_train[:batch_size].to(t.float), data[data_file].y_train[:batch_size], model)
+
+
+emd_score = continuous_emd(data[data_file].masks_train[0], XAI_Method[0].detach().numpy())
 
 print(continuous_emd)

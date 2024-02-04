@@ -5,13 +5,13 @@ from torch import load
 from emd import *
 
 # load the generated tetris data
-data_file = "linear_1d1p_0.18_uncorrelated"
-data_path = "./data/" + data_file + ".pkl"
-with open(data_path, 'rb') as file:
-    data = pkl.load(file)
+
 
 # train data of shape (N,64)
-x_train = data[data_file].x_train
+
+def XAI_Method(data: torch.Tensor, target: torch.Tensor, model: torch.nn.Module) -> torch.tensor:
+    return LRP(model).attribute(data, target=target)
+
 
 # train prediction labels of shape (N)
 # y_train = data[data_file].y_train
@@ -26,9 +26,6 @@ x_train = data[data_file].x_train
 # masks_train = data[data_file].masks_train.shape
 
 # load model
-model_file = "linear_1d1p_0.18_uncorrelated_LLR_1_0"
-model_path = "./ai_model/" + model_file + ".pt"
-model = load(model_path)
 
 # taken from /xai/methods.py
 
@@ -39,19 +36,13 @@ model = load(model_path)
 # and optionally (here for GradSHAP and LIME, not for LRP)
 
 
-def get_lrp_attributions(data: torch.Tensor, target: torch.Tensor, model: torch.nn.Module) -> torch.tensor:
-    return LRP(model).attribute(data, target=target)
-
 
 # calculate explanations for a batch, as seen in /xai/methods.py
 # alternatively do this for the whole dataset (this can be very slow!!)
-batch_size = 100
 
-lrp_explanations = get_lrp_attributions(
-    data[data_file].x_train[:batch_size].to(torch.float).reshape(100, 1, 8, 8), data[data_file].y_train[:batch_size], model)
+
 
 # producing the EMD score for LRP explanation of sample zero
 # emd_score = continuous_emd(data[data_file].masks_train[0],
 #                            lrp_explanations[0].detach().numpy())
 
-print(lrp_explanations)
