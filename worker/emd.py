@@ -52,21 +52,22 @@ def continuous_emd(gt_mask, attribution, n_dim=64):
 
     return 1 - (log['cost']/np.sqrt(n_dim + n_dim))
 
+def final_score():
+    data_file = "linear_1d1p_0.18_uncorrelated"
+    data_path = "./data/" + data_file + ".pkl"
+    with open(data_path, 'rb') as file:
+        data = pkl.load(file)
 
-data_file = "linear_1d1p_0.18_uncorrelated"
-data_path = "./data/" + data_file + ".pkl"
-with open(data_path, 'rb') as file:
-    data = pkl.load(file)
+    model_file = "linear_1d1p_0.18_uncorrelated_LLR_1_0"
+    model_path = "./ai_model/" + model_file + ".pt"
+    model = load(model_path)
 
-model_file = "linear_1d1p_0.18_uncorrelated_LLR_1_0"
-model_path = "./ai_model/" + model_file + ".pt"
-model = load(model_path)
+    batch_size = 100
 
-batch_size = 100
-
-explanations = XAI_Method(data[data_file].x_train[:batch_size].to(t.float), data[data_file].y_train[:batch_size], model)
+    explanations = XAI_Method(data[data_file].x_train[:batch_size].to(t.float), data[data_file].y_train[:batch_size], model)
 
 
-emd_score = continuous_emd(data[data_file].masks_train[0], explanations[0].detach().numpy())
+    emd_score = continuous_emd(data[data_file].masks_train[0], explanations[0].detach().numpy())
+    return emd_score
 
-print(emd_score)
+print(final_score())
