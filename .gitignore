@@ -1,4 +1,5 @@
 __pycache__/
+worker/venv
 node_modules
 settings.json
 node_modules

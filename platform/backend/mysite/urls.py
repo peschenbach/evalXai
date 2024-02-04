@@ -15,14 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from api.views import * 
+from api.views import *
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/prediction/', prediction_list),
-    path('api/prediction/<int:id>', prediction_detail),
-    path('api/score/', score_list),
-    path('api/score/<int:id>', score_detail),
-
+    path('api/xai/<int:challenge_id>/', xai_detail),
+    path('api/score/<int:challenge_id>/', score_detail),
+    path('api/dataset/<int:challenge_id>/', dataset_detail),
+    path('api/mlmodel/<int:challenge_id>/', ai_detail),
 ]
