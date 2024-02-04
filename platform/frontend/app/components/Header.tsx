@@ -25,7 +25,7 @@ const Header: React.FC = () => {
             d="M4 6h16M4 12h16M4 18h16"
           />
         </svg>
-        <h1 className="text-xl font-semibold">
+        <h1 className="text-xl mx-5 font-semibold">
           Explainable AI Benchmarking Plattform
         </h1>
         <input
