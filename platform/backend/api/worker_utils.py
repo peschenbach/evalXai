@@ -54,7 +54,7 @@ def trigger_evaluation_script_inside_worker(file_contents: str):
     result = container.exec_run(command)
 
     #TODO: read the saved file and send it back in result to see its content
-    return f"Executed input file."
+    return f"{result}"
     # logging.DEBUG(result.output.decode("utf-8"))
 
     # Print the output of the command
