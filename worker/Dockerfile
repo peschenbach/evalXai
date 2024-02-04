@@ -13,7 +13,7 @@ RUN pip install pandas==1.5.3
 RUN pip install matplotlib==3.4.3
 RUN pip install numpy==1.26.0
 RUN pip install requests==2.31.0
-
+RUN pip install pot==0.9.3
 # Copy the current directory contents in the container at /worker
 COPY . /worker/
 
