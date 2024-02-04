@@ -64,9 +64,9 @@ model = load(model_path)
 
 batch_size = 100
 
-lrp_explanations = XAI_Method(data[data_file].data[data_file].x_train[:batch_size].to(t.float), data[data_file].y_train[:batch_size], model)
+explanations = XAI_Method(data[data_file].x_train[:batch_size].to(t.float), data[data_file].y_train[:batch_size], model)
 
 
-emd_score = continuous_emd(data[data_file].masks_train[0], XAI_Method[0].detach().numpy())
+emd_score = continuous_emd(data[data_file].masks_train[0], explanations[0].detach().numpy())
 
-print(continuous_emd)
+print(emd_score)
