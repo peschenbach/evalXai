@@ -8,6 +8,7 @@ from torch import load
 from upload import XAI_Method
 import pickle as pkl
 import numpy as np
+import requests
 
 from ot.lp import emd
 
@@ -70,4 +71,9 @@ def final_score():
     emd_score = continuous_emd(data[data_file].masks_train[0], explanations[0].detach().numpy())
     return emd_score
 
-print(final_score())
+score = final_score()
+post_data = {"score": float(score)}
+
+challenge_Id = 1
+post_url = f"http://localhost:8000/api/score/{challenge_Id}/"
+response = requests.post(post_url, json=post_data)
