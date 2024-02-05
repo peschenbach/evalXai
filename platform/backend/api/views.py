@@ -24,10 +24,10 @@ def xai_detail(request, challenge_id):
 
 
 @api_view(['GET', 'POST'])
-def score_detail(request, id):
+def score_detail(request, challenge_id):
 
     try:
-        score = Score.objects.get(pk=id)
+        score = Score.objects.filter(challenge_id=challenge_id).first()
     except Score.DoesNotExist:
         return Response(status=status.HTTP_404)
 
@@ -36,7 +36,12 @@ def score_detail(request, id):
         return Response(serializer.data)
 
     if request.method == "POST":
-        serializer = ScoreSerializer(data=request.data)
+        if score:  # If a score with this challenge_id already exists
+            serializer = ScoreSerializer(score, data=request.data)
+        else:
+            # Create a new score if it doesn't exist
+            serializer = ScoreSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
