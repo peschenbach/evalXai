@@ -33,7 +33,7 @@ const Header: React.FC = () => {
           placeholder="Search..."
           className=" px-4 py-2  rounded bg-white text-gray-800"
         />
-        <nav className="flex space-x-4">
+        <nav className="flex mx-5 space-x-4">
           <p>Login</p>
           <p>Settings</p>
         </nav>
