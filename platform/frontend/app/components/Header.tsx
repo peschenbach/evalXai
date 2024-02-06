@@ -29,7 +29,7 @@ const Header: React.FC = () => {
         </svg>
         <Image src={logo_ptb} alt="logo" className="bg-white p-2 mx-2 w-40" />
         <h1 className="text-xl mx-5 font-semibold">
-          Explainable AI Benchmarking Plattform
+          Explainable AI Benchmarking Platform
         </h1>
         <input
           type="search"
