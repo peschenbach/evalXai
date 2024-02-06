@@ -1,9 +1,12 @@
 import React, { useRef, useState, ChangeEvent } from "react";
 import Button from "@mui/material/Button";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 export const FileUpload = () => {
   const [uploadStatus, setUploadStatus] = useState<string>("");
+  const [isUploadSuccessful, setIsUploadSuccessful] = useState<boolean>(false);
+  const [score, setScore] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -13,29 +16,37 @@ export const FileUpload = () => {
       const formData = new FormData();
       formData.append("file", selectedFile);
       try {
-        const response = await axios.post(
-          "http://localhost:8000/api/xai/1/",
-          formData,
-          {}
-        );
-
-        setUploadStatus(
-          `File uploaded successfully: ${JSON.stringify(response.data)}`
-        );
+        await axios.post("http://localhost:8000/api/xai/1/", formData, {});
+        setUploadStatus(`✅ File uploaded successfully`);
+        setIsUploadSuccessful(true);
+        setScore(null);
+        setError(null);
       } catch (error) {
-        let errorMessage = "An error occurred";
         if (axios.isAxiosError(error)) {
-          errorMessage = `Error uploading file: ${
-            error.response ? JSON.stringify(error.response.data) : errorMessage
-          }`;
+          setUploadStatus(`Error uploading file: An error occurred 😢`);
         }
-        setUploadStatus(errorMessage);
+        setIsUploadSuccessful(false);
       }
     }
   };
 
   const handleButtonClick = () => {
     fileInputRef.current?.click();
+  };
+
+  const handleGetScoreClick = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/score/1/");
+      setScore(`Score: ${response.data.score}`);
+      setError(null);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setError(`Failed to get score. An error occurred 😢`);
+      } else {
+        setError("Failed to get score: An unexpected error occurred");
+      }
+      setScore(null);
+    }
   };
 
   return (
@@ -62,7 +73,23 @@ export const FileUpload = () => {
             Select and Upload File
           </Button>
         </div>
-        {uploadStatus && <p>{uploadStatus}</p>}
+        <div className="flex flex-col items-center justify-center">
+          {uploadStatus && <p>{uploadStatus}</p>}
+          {isUploadSuccessful && (
+            <>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleGetScoreClick}
+                className="mt-5 bg-red-500"
+              >
+                Get Score
+              </Button>
+              {score && <p>{score}</p>}
+              {error && <p className="text-orange-500">{error}</p>}
+            </>
+          )}
+        </div>
       </div>
     </>
   );
