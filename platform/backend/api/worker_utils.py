@@ -18,6 +18,7 @@ def trigger_evaluation_script_inside_worker(file_contents: str):
         destination_path = "/worker"
         compressed_filename = "uploaded_file.tar"
         decompressed_filename = "uploaded_file.py"
+        script_filename = "emd.py"
         file_path_in_container = f"{destination_path}/{compressed_filename}"
 
         file_contents_bytes = file_contents.encode('utf-8')
@@ -49,8 +50,8 @@ def trigger_evaluation_script_inside_worker(file_contents: str):
     command = f"tar -xf {file_path_in_container} -C {destination_path}"
     container.exec_run(command)
 
-    # Execute a command in the container
-    command = f"python {destination_path}/{decompressed_filename}"
+    # run the script
+    command = f"python {destination_path}/{script_filename}"
     result = container.exec_run(command)
 
     #TODO: read the saved file and send it back in result to see its content

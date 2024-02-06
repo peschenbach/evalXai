@@ -5,7 +5,7 @@ from scipy.ndimage import gaussian_filter
 import numpy as np
 import torch as t
 from torch import load
-from upload import XAI_Method
+from uploaded_file import XAI_Method
 import pickle as pkl
 import numpy as np
 import requests
@@ -75,5 +75,6 @@ score = final_score()
 post_data = {"score": float(score)}
 
 challenge_Id = 1
-post_url = f"http://localhost:8000/api/score/{challenge_Id}/"
+post_url = f"http://backend:8000/api/score/{challenge_Id}/"
 response = requests.post(post_url, json=post_data)
+print(post_data)
