@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import TemporaryDrawer from "./TemporaryDrawer";
+import logo_ptb from "@/public/logo_ptb.png";
+import Image from "next/image";
 
 const Header: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -25,6 +27,7 @@ const Header: React.FC = () => {
             d="M4 6h16M4 12h16M4 18h16"
           />
         </svg>
+        <Image src={logo_ptb} alt="logo" className="bg-white p-2 mx-2 w-40" />
         <h1 className="text-xl mx-5 font-semibold">
           Explainable AI Benchmarking Plattform
         </h1>
