@@ -12,17 +12,13 @@ export const FileUpload = () => {
       const selectedFile = files[0];
       const formData = new FormData();
       formData.append("file", selectedFile);
-
       try {
         const response = await axios.post(
           "http://localhost:8000/api/xai/1/",
           formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
+          {}
         );
+
         setUploadStatus(
           `File uploaded successfully: ${JSON.stringify(response.data)}`
         );
@@ -54,6 +50,7 @@ export const FileUpload = () => {
             onChange={handleFileUpload}
             style={{ display: "none" }}
             ref={fileInputRef}
+            accept=".py"
           />
 
           <Button
