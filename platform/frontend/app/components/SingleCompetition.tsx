@@ -72,6 +72,15 @@ export const SingleCompetition = (props: SingleCompetitionProps) => {
                   Download Dataset
                 </Button>
               </a>
+              <a href="http://localhost:8000/api/xai_template/1">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="m-5 bg-gray-800"
+                >
+                  Download XAI Template
+                </Button>
+              </a>
             </div>
           </div>
 

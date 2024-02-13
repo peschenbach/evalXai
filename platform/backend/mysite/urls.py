@@ -23,5 +23,6 @@ urlpatterns = [
     path('api/xai/<int:challenge_id>/', xai_detail),
     path('api/score/<int:challenge_id>/', score_detail),
     path('api/dataset/<int:challenge_id>/', dataset_detail),
+    path('api/xai_template/<int:challenge_id>/', xai_template),
     path('api/mlmodel/<int:challenge_id>/', ai_detail),
 ]

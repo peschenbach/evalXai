@@ -98,3 +98,22 @@ def ai_detail(request, challenge_id):
     response['Content-Disposition'] = f'attachment; filename="linear_1d1p_0.18_uncorrelated_LLR_1_0.pt"'
 
     return response
+
+
+@api_view(['GET'])
+def xai_template(request, challenge_id):
+    file_path = "./template/xai_template.py"
+
+    try:
+        with open(file_path, 'rb') as file:
+            data = file.read()
+    except Exception as e:
+        return Response({'error': f'Error reading file: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    # Set the content type to application/octet-stream to indicate a binary file
+    response = HttpResponse(data, content_type='application/octet-stream')
+
+    # Set the file name in the Content-Disposition header
+    response['Content-Disposition'] = f'attachment; filename="xai_template.py"'
+
+    return response
