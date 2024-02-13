@@ -1,6 +1,7 @@
 import React, { useRef, useState, ChangeEvent } from "react";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const FileUpload = () => {
   const [uploadStatus, setUploadStatus] = useState<string>("");
@@ -8,6 +9,7 @@ export const FileUpload = () => {
   const [score, setScore] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -15,6 +17,8 @@ export const FileUpload = () => {
       const selectedFile = files[0];
       const formData = new FormData();
       formData.append("file", selectedFile);
+      setIsLoading(true);
+
       try {
         await axios.post("http://localhost:8000/api/xai/1/", formData, {});
         setUploadStatus(`✅ File uploaded successfully`);
@@ -26,6 +30,8 @@ export const FileUpload = () => {
           setUploadStatus(`Error uploading file: An error occurred 😢`);
         }
         setIsUploadSuccessful(false);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -63,18 +69,21 @@ export const FileUpload = () => {
             ref={fileInputRef}
             accept=".py"
           />
-
-          <Button
-            variant="contained"
-            color="primary"
-            className="bg-blue-500"
-            onClick={handleButtonClick}
-          >
-            Select and Upload File
-          </Button>
+          <div className="flex flex-col items-center justify-center">
+            <Button
+              variant="contained"
+              color="primary"
+              className="bg-blue-500"
+              onClick={handleButtonClick}
+            >
+              Select and Upload File
+            </Button>
+            {isLoading && <CircularProgress className="mt-5" />}
+          </div>
         </div>
         <div className="flex flex-col items-center justify-center">
           {uploadStatus && <p>{uploadStatus}</p>}
+
           {isUploadSuccessful && (
             <>
               <Button

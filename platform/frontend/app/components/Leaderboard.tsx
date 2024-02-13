@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 
 const mockData = [
-  { rank: 1, name: "Test User 1", score: 100 },
-  { rank: 2, name: "Test User 2", score: 90 },
-  { rank: 3, name: "Test User 3", score: 80 },
+  { rank: 1, name: " User 1", score: 100 },
+  { rank: 2, name: " User 2", score: 90 },
+  { rank: 3, name: " User 3", score: 80 },
 ];
 
 export const Leaderboard = () => {
@@ -23,7 +23,7 @@ export const Leaderboard = () => {
           <TableRow>
             <TableCell>Rank</TableCell>
             <TableCell align="right">Name</TableCell>
-            <TableCell align="right">Score</TableCell>
+            <TableCell align="right">EMD Score</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

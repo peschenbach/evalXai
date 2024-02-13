@@ -4,7 +4,8 @@ import React from "react";
 import FileUpload from "./FileUpload";
 import { Button } from "@mui/material";
 import axios from "axios";
-
+import TetrisImage from "../../public/TetrisImage.png";
+import Image from "next/image";
 interface SingleCompetitionProps {
   competitionName: string;
 }
@@ -33,6 +34,17 @@ export const SingleCompetition = (props: SingleCompetitionProps) => {
     <>
       <div className="flex flex-col min-h-screen">
         <main className="flex flex-1 flex-col items-center justify-center p-24 bg-gray-300">
+          <Image src={TetrisImage} alt="Tetris" className="px-16 pb-16" />
+          <a
+            href="https://www.researchgate.net/publication/371786418_XAI-TRIS_Non-linear_benchmarks_to_quantify_ML_explanation_performance"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mb-6"
+          >
+            <Button variant="outlined" color="primary">
+              View the XAI-TRIS Paper
+            </Button>
+          </a>
           <div className="w-full max-w-3xl mx-auto bg-white shadow-md p-8 rounded-lg mb-20">
             <h2 className="text-2xl font-semibold mb-4 text-center">
               {props.competitionName} Competition
