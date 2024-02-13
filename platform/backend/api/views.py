@@ -83,7 +83,7 @@ def ai_detail(request, challenge_id):
     # serializer = MlmodelSerializer(model)
     # return Response(serializer.data)
 
-    file_path = "./ml_model/cnn.pt"
+    file_path = "./ml_model/linear_1d1p_0.18_uncorrelated_LLR_1_0.pt"
 
     try:
         with open(file_path, 'rb') as file:
@@ -95,6 +95,6 @@ def ai_detail(request, challenge_id):
     response = HttpResponse(data, content_type='application/octet-stream')
 
     # Set the file name in the Content-Disposition header
-    response['Content-Disposition'] = f'attachment; filename="cnn.pt"'
+    response['Content-Disposition'] = f'attachment; filename="linear_1d1p_0.18_uncorrelated_LLR_1_0.pt.pt"'
 
     return response
