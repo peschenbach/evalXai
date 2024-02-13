@@ -18,7 +18,8 @@ def xai_detail(request, challenge_id):
         return Response({'error': f'error getting the input file'}, status=status.HTTP_400_BAD_REQUEST)
 
     file_contents = input_file.read().decode('utf-8')
-    message = trigger_evaluation_script_inside_worker(file_contents)
+    message = trigger_evaluation_script_inside_worker(
+        file_contents, challenge_id)
 
     return Response({'message': message}, status=status.HTTP_200_OK)
 

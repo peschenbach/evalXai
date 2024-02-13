@@ -4,7 +4,7 @@ import tarfile
 import docker
 
 
-def trigger_evaluation_script_inside_worker(file_contents: str):
+def trigger_evaluation_script_inside_worker(file_contents: str, challenge_id: int):
     try:
         # logging.DEBUG("entered trigger function")
         # Create a Docker client
@@ -54,7 +54,7 @@ def trigger_evaluation_script_inside_worker(file_contents: str):
     command = f"python {destination_path}/{script_filename}"
     result = container.exec_run(command)
 
-    #TODO: read the saved file and send it back in result to see its content
+    # TODO: read the saved file and send it back in result to see its content
     return f"{result}"
     # logging.DEBUG(result.output.decode("utf-8"))
 
