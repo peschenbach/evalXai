@@ -5,7 +5,7 @@ from scipy.ndimage import gaussian_filter
 import numpy as np
 import torch as t
 from torch import load
-from uploaded_file import XAI_Method
+from upload import XAI_Method
 import pickle as pkl
 import numpy as np
 import requests
@@ -21,6 +21,9 @@ from ot.lp import emd
 
 # euclidean distance cost matrix
 
+"""
+XAI related methods and calculation of metric from the xai_tris_workflow.ipynb
+"""
 
 def create_cost_matrix(edge_length=64):
     mat = np.indices((edge_length, edge_length))
@@ -35,7 +38,6 @@ def create_cost_matrix(edge_length=64):
 cost_matrix_8by8 = create_cost_matrix(8)
 
 # Scale matrix to sum to 1
-
 
 def sum_to_1(mat):
     return mat / np.sum(mat)
@@ -54,6 +56,7 @@ def continuous_emd(gt_mask, attribution, n_dim=64):
     return 1 - (log['cost']/np.sqrt(n_dim + n_dim))
 
 def final_score():
+    # load set data and model
     data_file = "linear_1d1p_0.18_uncorrelated"
     data_path = "./data/" + data_file + ".pkl"
     with open(data_path, 'rb') as file:
@@ -63,13 +66,26 @@ def final_score():
     model_path = "./ai_model/" + model_file + ".pt"
     model = load(model_path)
 
+    d = data[data_file]
+
+    # calculate explanations and metric for the first 100 samples used in training
+
     batch_size = 100
+    xai_scores = []
 
-    explanations = XAI_Method(data[data_file].x_train[:batch_size].to(t.float), data[data_file].y_train[:batch_size], model)
+    explanations = XAI_Method(d.x_train[:batch_size].to(t.float), d.y_train[:batch_size], model)
+    for i in range(batch_size):
+        xai_score = continuous_emd(d.masks_train[i], explanations[i].detach().numpy())
+        xai_scores.append(xai_score)
 
 
-    emd_score = continuous_emd(data[data_file].masks_train[0], explanations[0].detach().numpy())
+    print('mean', np.mean(xai_scores))
+    print('std', np.std(xai_scores))
+
+
+    emd_score = continuous_emd(d.masks_train[0], explanations[0].detach().numpy())
     return emd_score
+
 
 score = final_score()
 post_data = {"score": float(score)}
