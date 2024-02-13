@@ -95,6 +95,6 @@ def ai_detail(request, challenge_id):
     response = HttpResponse(data, content_type='application/octet-stream')
 
     # Set the file name in the Content-Disposition header
-    response['Content-Disposition'] = f'attachment; filename="linear_1d1p_0.18_uncorrelated_LLR_1_0.pt.pt"'
+    response['Content-Disposition'] = f'attachment; filename="linear_1d1p_0.18_uncorrelated_LLR_1_0.pt"'
 
     return response
