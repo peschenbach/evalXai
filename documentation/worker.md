@@ -82,7 +82,7 @@
 	- in principle any python file with a function precisely called `XAI_Method` which returns a `torch.Tensor` of correct shape should work properly
 	- the input parameters may be extended, but otherwise should not be changed
 - `XAI_Method()`
-- 	**Input**
+	- **Input**
 		- `data` - `torch.Tensor` of shape (N, 64)
 		- `target` - `torch.Tensor` of shape (1, N)
 		- `model` - `torch.nn.Module`
