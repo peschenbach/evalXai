@@ -22,10 +22,10 @@
 - pot==0.9.3
 - requests==2.4.2
 ## *ai_model*
-- contains some trained models built using the xai_tris repository as `.pt` files
+- **Description** Contains some trained models built using the xai_tris repository as `.pt` files
 
 ## *data*
-- contains some data sets build using the xai_tris repository as `.pkl` files
+- **Description** Contains some data sets build using the xai_tris repository as `.pkl` files
 
 ## *docker_utils*
 
@@ -37,7 +37,7 @@
 
 ## *training*
 ### models.py && train_models.py
-- files from the xai_tris repository needed as dependencies for the worker script
+- **Description** Files from the xai_tris repository needed as dependencies for the worker script
 
 ## Dockerfile
 - **Description** Installs needed libraries needed for the worker script, copies docker containers files to local machine
@@ -82,7 +82,7 @@
 	- in principle any python file with a function precisely called `XAI_Method` which returns a `torch.Tensor` of correct shape should work properly
 	- the input parameters may be extended, but otherwise should not be changed
 - `XAI_Method()`
-	- **Input**
+- 	**Input**
 		- `data` - `torch.Tensor` of shape (N, 64)
 		- `target` - `torch.Tensor` of shape (1, N)
 		- `model` - `torch.nn.Module`
