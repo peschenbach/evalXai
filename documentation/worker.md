@@ -31,50 +31,59 @@
 
 ### worker_utils.py
 `spawn_container`
-  - input: worker_id
-  - output: True, if successful
-  - creates a docker container using the Dockerfile in the parent directory of input id
+  - **Input** `worker_id`
+  - **Output** `True`, if successful
+  - **Description** Creates a docker container using the Dockerfile in the parent directory of input id
 
 ## *training*
 ### models.py && train_models.py
 - files from the xai_tris repository needed as dependencies for the worker script
 
 ## Dockerfile
-- installs needed libraries needed for the worker script
-- copy docker containers files to local machine
-- *TODO:* create multiple workers with their respective id's
+- **Description** Installs needed libraries needed for the worker script, copies docker containers files to local machine
+- **TODO** Create multiple workers with their respective id's
 
 ## common.py
-- read and parse training and data files
-- DataRecord
-	- x_train - training data
-	- y_train - labels for training data
-	- x_val - validation data set, used for final evaluation of the score
-	- y_val - labels for validation data set
-	- x_test - test data set, can be used by the user in order to determine correct prediction%
-	- y_test - labels for test data set
-	- masks_train - ground truth explanation of training set
-	- masks_val - ground truth explanation of validation set
-	- masks_test - ground truth explanation of test set
-- TrainingRecord
-	- data_params - number of data set parameters
-	- model_path - path to Pytorch model
-	- keras_path - path to Keras model
-	- train_loss - loss function value for training set
-	- val_loss - loss function value for validation set
-	- train_accuracy - accuracy for predicting training set
-	- val_accuracy - accuracy for predicting validation set
-	- test_preds - accuracy for predicting test set
+- **Description** Read and parse training and data files
+- **DataRecord**
+	- `x_train` - training data
+	- `y_train` - labels for training data
+	- `x_val` - validation data set, used for final evaluation of the score
+	- `y_val` - labels for validation data set
+	- `x_test` - test data set, can be used by the user in order to determine correct prediction%
+	- `y_test` - labels for test data set
+	- `masks_train` - ground truth explanation of training set
+	- `masks_val` - ground truth explanation of validation set
+	- `masks_test` - ground truth explanation of test set
+- **TrainingRecord**
+	- `data_params` - number of data set parameters
+	- `model_path` - path to Pytorch model
+	- `keras_path` - path to Keras model
+	- `train_loss` - loss function value for training set
+	- `val_loss` - loss function value for validation set
+	- `train_accuracy` - accuracy for predicting training set
+	- `val_accuracy` - accuracy for predicting validation set
+	- `test_preds` - accuracy for predicting test set
 
 ## emd.py
-- slightly modified evaluation script to calculate the EMD metric of uploaded XAI method form the xai_tris_workflow.ipynb
-- posts EMD metric score to the endpoint `/api/score/1` (hard coded) and receives response
+- **Description** 
+	- Slightly modified evaluation script to calculate the EMD metric of uploaded XAI method form the `xai_tris_workflow.ipynb`
+	- posts EMD metric score to the endpoint `/api/score/1` (hard coded) and receives response
 
 `final_score()`
-- calculates the EMD metric from for the hard coded data file using the hard coded trained model, iterating through a fixed size (100) of samples out of the training set and returning the average of the score
+- **Description**
+	- Calculates the EMD metric from for the hard coded data file using the hard coded trained model
+	- Iterates through a fixed size (100) of samples out of the training set and returning the average of the score
 
 
 ## upload.py
-- sample upload file using a `captum.attr` XAI method
-- in principle any python file with a function precisely called XAI_Method which returns a `torch.tensor` of correct shape should work properly
-- the input parameters may be extended, but otherwise should not be changed
+- **Description**
+	- sample upload file using a `captum.attr` XAI method
+	- in principle any python file with a function precisely called `XAI_Method` which returns a `torch.Tensor` of correct shape should work properly
+	- the input parameters may be extended, but otherwise should not be changed
+- `XAI_Method()`
+	- **Input**
+		- `data` - `torch.Tensor` of shape (N, 64)
+		- `target` - `torch.Tensor` of shape (1, N)
+		- `model` - `torch.nn.Module`
+	- **Output** `torch.tensor` of shape (N, 64)
