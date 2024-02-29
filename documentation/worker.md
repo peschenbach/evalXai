@@ -71,9 +71,9 @@
 	- posts EMD metric score to the endpoint `/api/score/1` (hard coded) and receives response
 
 `final_score()`
-- **Description**
-	- Calculates the EMD metric from for the hard coded data file using the hard coded trained model
-	- Iterates through a fixed size (100) of samples out of the training set and returning the average of the score
+	- **Description**
+		- Calculates the EMD metric from for the hard coded data file using the hard coded trained model
+		- Iterates through a fixed size (100) of samples out of the training set and returning the average of the score
 
 
 ## upload.py
