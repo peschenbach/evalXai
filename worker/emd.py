@@ -18,6 +18,7 @@ from ot.lp import emd
 # combined_mask[1:4, 1:3] = normal_t
 # combined_mask[4:7, 5:7] = normal_l
 # combined_mask = combined_mask.reshape((8,8))
+challenge_Id = 1
 
 # euclidean distance cost matrix
 
@@ -90,7 +91,6 @@ def final_score():
 score = final_score()
 post_data = {"score": float(score)}
 
-challenge_Id = 1
 post_url = f"http://backend:8000/api/score/{challenge_Id}/"
 response = requests.post(post_url, json=post_data)
 print(post_data)
